@@ -95,11 +95,18 @@ or if you are using Gradle:
 include::complete/build.gradle[tag=test]
 ----
 
-Then create a test case with the `@RunWith` and `@SpringBootTest` annotations:
+Then create a test case with the `@RunWith` and `@SpringBootTest` annotations and an empty test method:
 
 `src/test/java/hello/ApplicationTest.java`
 [source,java]
 ----
+package hello;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ApplicationTest {
@@ -111,27 +118,12 @@ public class ApplicationTest {
 }
 ----
 
-The `@SpringBootTest` annotation tells Spring Boot to go and look for a main configuration class (one with `@SpringBootApplication` for instance), and use that to start a Spring application context. You can run this test in your IDE ro on the command line (`mvn test` or `gradle test`). To convince yourself that the context is creating your controller you could add an assertion:
+The `@SpringBootTest` annotation tells Spring Boot to go and look for a main configuration class (one with `@SpringBootApplication` for instance), and use that to start a Spring application context. You can run this test in your IDE ro on the command line (`mvn test` or `gradle test`) and it should pass. To convince yourself that the context is creating your controller you could add an assertion:
 
-`src/test/java/hello/ApplicationTest.java`
+`src/test/java/hello/SmokeTest.java`
 [source,java]
 ----
-import static org.assertj.core.api.Assertions.assertThat;
-...
-
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class ApplicationTest {
-
-    @Autowired
-    private HomeController controller;
-
-    @Test
-    public void contextLoads() throws Exception {
-      assertThat(controller).isNotNull();
-    }
-
-}
+include::complete/src/test/java/hello/SmokeTest.java
 ----
 
 The `@Autowired` annotation is interpreted by the Spring and the controller is injected before the test methods are run. We are using http://joel-costigliola.github.io/assertj/[AssertJ] (`assertThat()` etc.) to express the test assertions.
@@ -143,7 +135,7 @@ It's nice to have a sanity check like that, but we should also write some tests 
 `src/test/java/hello/HttpRequestTest.java`
 [source,java]
 ----
-include::complete/src/test/java/hello/HttpRequestTest.java[tag=test]
+include::complete/src/test/java/hello/HttpRequestTest.java
 ----
 
 Note the use of `webEnvironment=RANDOM_PORT` to start the server with a random port (useful to avoid conflicts in test environments), and the injection of the port with `@LocalServerPort`. Also note that Spring Boot has provided a `TestRestTemplate` for you automatically, and all you have to do is `@Autowired` it.
@@ -153,7 +145,7 @@ Another useful approach is to not start the server at all, but test only the lay
 `src/test/java/hello/ApplicationTest.java`
 [source,java]
 ----
-include::complete/src/test/java/hello/ApplicationTest.java[tag=test]
+include::complete/src/test/java/hello/ApplicationTest.java
 ----
 
 In this test, the full Spring application context is started, but without the server. We can narrow down the tests to just the web layer by using `@WebMvcTest`:
@@ -189,7 +181,7 @@ The service dependency will be automatically injected by Spring into the control
 `src/test/java/hello/WebMockTest.java`
 [source,java]
 ----
-include::complete/src/test/java/hello/WebMockTest.java[tag=test]
+include::complete/src/test/java/hello/WebMockTest.java
 ----
 
 We use `@MockBean` to create and inject a mock for the `GreetingService` (if you don't do this the application context cannot start), and we set its expectations using `Mockito`.
