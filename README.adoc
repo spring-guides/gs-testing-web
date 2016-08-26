@@ -184,7 +184,7 @@ and then
 include::complete/src/main/java/hello/GreetingService.java[]
 ----
 
-To test this controller with `@WebMvcTest` you can do this
+The service dependency will be automatically injected by Spring into the controller (because of the constructor signature). To test this controller with `@WebMvcTest` you can do this
 
 `src/test/java/hello/WebMockTest.java`
 [source,java]
