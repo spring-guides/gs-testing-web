@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(HomeController.class)
+//tag::test[]
 public class WebLayerTest {
 
     @Autowired
@@ -26,3 +27,4 @@ public class WebLayerTest {
                 .andExpect(content().string(containsString("Hello World")));
     }
 }
+//end::test[]
