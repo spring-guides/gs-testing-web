@@ -155,7 +155,7 @@ In this test, the full Spring application context is started, but without the se
 ----
 @RunWith(SpringRunner.class)
 @WebMvcTest
-include::complete/src/test/java/hello/WebLayerTest.java[]
+include::complete/src/test/java/hello/WebLayerTest.java[tag=test]
 ----
 
 The test assertion is the same as in the previous case, but here Spring Boot is only instantiating the web layer, not the whole context. In an application with multiple controllers you can even ask for just one to be instantiated, using, for example `@WebMvcTest(HomeController.class)`
