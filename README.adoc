@@ -123,7 +123,7 @@ The `@SpringBootTest` annotation tells Spring Boot to go and look for a main con
 `src/test/java/hello/SmokeTest.java`
 [source,java]
 ----
-include::complete/src/test/java/hello/SmokeTest.java
+include::complete/src/test/java/hello/SmokeTest.java[]
 ----
 
 The `@Autowired` annotation is interpreted by the Spring and the controller is injected before the test methods are run. We are using http://joel-costigliola.github.io/assertj/[AssertJ] (`assertThat()` etc.) to express the test assertions.
@@ -135,7 +135,7 @@ It's nice to have a sanity check like that, but we should also write some tests 
 `src/test/java/hello/HttpRequestTest.java`
 [source,java]
 ----
-include::complete/src/test/java/hello/HttpRequestTest.java
+include::complete/src/test/java/hello/HttpRequestTest.java[]
 ----
 
 Note the use of `webEnvironment=RANDOM_PORT` to start the server with a random port (useful to avoid conflicts in test environments), and the injection of the port with `@LocalServerPort`. Also note that Spring Boot has provided a `TestRestTemplate` for you automatically, and all you have to do is `@Autowired` it.
@@ -145,7 +145,7 @@ Another useful approach is to not start the server at all, but test only the lay
 `src/test/java/hello/ApplicationTest.java`
 [source,java]
 ----
-include::complete/src/test/java/hello/ApplicationTest.java
+include::complete/src/test/java/hello/ApplicationTest.java[]
 ----
 
 In this test, the full Spring application context is started, but without the server. We can narrow down the tests to just the web layer by using `@WebMvcTest`:
