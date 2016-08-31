@@ -155,7 +155,7 @@ In this test, the full Spring application context is started, but without the se
 ----
 @RunWith(SpringRunner.class)
 @WebMvcTest
-include::complete/src/test/java/hello/WebLayerTest.java[tag=test]
+include::complete/src/test/java/hello/WebLayerTest.java[]
 ----
 
 The test assertion is the same as in the previous case, but here Spring Boot is only instantiating the web layer, not the whole context. In an application with multiple controllers you can even ask for just one to be instantiated, using, for example `@WebMvcTest(HomeController.class)`
@@ -181,7 +181,7 @@ The service dependency will be automatically injected by Spring into the control
 `src/test/java/hello/WebMockTest.java`
 [source,java]
 ----
-include::complete/src/test/java/hello/WebMockTest.java
+include::complete/src/test/java/hello/WebMockTest.java[]
 ----
 
 We use `@MockBean` to create and inject a mock for the `GreetingService` (if you don't do this the application context cannot start), and we set its expectations using `Mockito`.
