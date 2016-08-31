@@ -9,7 +9,7 @@ projects: [spring-framework,spring-boot]
 :toc:
 :icons: font
 :source-highlighter: prettify
-:project_id: draft-gs-template
+:project_id: gs-testing-web
 This guide walks you through the process of creating a Spring application.
 
 == What you'll build
