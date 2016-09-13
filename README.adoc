@@ -84,7 +84,7 @@ The first thing you can do is write a simple sanity check test that will fail if
 `pom.xml`
 [source,xml]
 ----
-include::complete/pom.xml[tag=test]
+include::complete/pom.xml[tag=test,indent=0]
 ----
 
 or if you are using Gradle:
@@ -92,7 +92,7 @@ or if you are using Gradle:
 `build.gradle`
 [source,groovy]
 ----
-include::complete/build.gradle[tag=test]
+include::complete/build.gradle[tag=test,indent=0]
 ----
 
 Then create a test case with the `@RunWith` and `@SpringBootTest` annotations and an empty test method:
