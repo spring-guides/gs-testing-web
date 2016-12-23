@@ -3,7 +3,7 @@ tags: [test,maven,gradle]
 projects: [spring-framework,spring-boot]
 ---
 :spring_version: current
-:spring_boot_version: 1.4.2.RELEASE
+:spring_boot_version: 1.4.3.RELEASE
 :SpringApplication: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/SpringApplication.html
 :DirtiesContext: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/test/annotation/DirtiesContext.html
 :toc:
