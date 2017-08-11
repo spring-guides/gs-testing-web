@@ -59,7 +59,7 @@ include::complete/src/main/java/hello/Application.java[]
 ----
 
 `@SpringBootApplication` is a convenience annotation that adds all of the following:
-    
+
 - `@Configuration` tags the class as a source of bean definitions for the application context.
 - `@EnableAutoConfiguration` tells Spring Boot to start adding beans based on classpath settings, other beans, and various property settings.
 - Normally you would add `@EnableWebMvc` for a Spring MVC app, but Spring Boot adds it automatically when it sees **spring-webmvc** on the classpath. This flags the application as a web application and activates key behaviors such as setting up a `DispatcherServlet`.
@@ -189,8 +189,13 @@ We use `@MockBean` to create and inject a mock for the `GreetingService` (if you
 
 == Summary
 
-Congratulations! You've just developed a Spring application and tested it with JUnit and Spring `MockMvc` using Spring Boot to isolate the web layer and load a special application context.  
+Congratulations! You've just developed a Spring application and tested it with JUnit and Spring `MockMvc` using Spring Boot to isolate the web layer and load a special application context.
 
+== See Also
+
+The following guides may also be helpful:
+
+* https://spring.io/guides/gs/spring-boot/[Building an Application with Spring Boot]
+* https://spring.io/guides/gs/serving-web-content/[Serving Web Content with Spring MVC]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
-
