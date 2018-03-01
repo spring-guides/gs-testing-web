@@ -21,6 +21,8 @@ dependency-reduced-pom.xml
 .classpath
 .project
 .settings/
+.sts4-cache/
+.attach_pid*
 
 # IntelliJ IDEA Files
 
