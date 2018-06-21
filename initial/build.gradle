@@ -10,7 +10,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
-jar {
+bootJar {
     baseName = 'gs-testing-web'
     version =  '0.1.0'
 }
