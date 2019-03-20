@@ -1,7 +1,7 @@
 :spring_version: current
 :spring_boot_version: 1.5.10.RELEASE
-:SpringApplication: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/SpringApplication.html
-:DirtiesContext: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/test/annotation/DirtiesContext.html
+:SpringApplication: https://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/SpringApplication.html
+:DirtiesContext: https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/test/annotation/DirtiesContext.html
 :toc:
 :icons: font
 :source-highlighter: prettify
@@ -122,7 +122,7 @@ The `@SpringBootTest` annotation tells Spring Boot to go and look for a main con
 include::complete/src/test/java/hello/SmokeTest.java[]
 ----
 
-The `@Autowired` annotation is interpreted by the Spring and the controller is injected before the test methods are run. We are using http://joel-costigliola.github.io/assertj/[AssertJ] (`assertThat()` etc.) to express the test assertions.
+The `@Autowired` annotation is interpreted by the Spring and the controller is injected before the test methods are run. We are using https://joel-costigliola.github.io/assertj/[AssertJ] (`assertThat()` etc.) to express the test assertions.
 
 NOTE: A nice feature of the Spring Test support is that the application context is cached in between tests, so if you have multiple methods in a test case, or multiple test cases with the same configuration, they only incur the cost of starting the application once. You can control the cache using the {DirtiesContext}[`@DirtiesContext`] annotation.
 
