@@ -40,7 +40,7 @@ Create a new controller for your Spring application:
 include::complete/src/main/java/hello/HomeController.java[]
 ----
 
-NOTE: The above example does not specify `GET` vs. `PUT`, `POST`, and so forth, because `@RequestMapping` maps all HTTP operations by default. Use `@RequestMapping(method=GET)` to narrow this mapping.
+NOTE: The above example does not specify `GET` vs. `PUT`, `POST`, and so forth, because `@RequestMapping` maps all HTTP operations by default. Use `@GetMapping` or `@RequestMapping(method=GET)` to narrow this mapping.
 
 
 == Make the application executable
