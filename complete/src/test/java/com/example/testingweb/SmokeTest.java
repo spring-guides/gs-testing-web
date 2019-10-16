@@ -1,4 +1,4 @@
-package hello;
+package com.example.testingweb;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SmokeTest {
-	
+
 	@Autowired
 	private HomeController controller;
 

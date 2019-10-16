@@ -1,32 +1,18 @@
-buildscript {
-    repositories { mavenCentral() }
+plugins {
+	id 'org.springframework.boot' version '2.1.9.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'java'
 }
 
-plugins { id "io.spring.dependency-management" version "1.0.4.RELEASE" }
-
-ext { springBootVersion = '2.2.1.RELEASE' }
-
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-
-bootJar {
-    baseName = 'gs-testing-web'
-    version =  '0.1.0'
-}
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
 
 repositories {
-    mavenCentral()
+	mavenCentral()
 }
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web")
-    testCompile("org.springframework.boot:spring-boot-starter-test")
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.6'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

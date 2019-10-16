@@ -6,186 +6,248 @@
 :icons: font
 :source-highlighter: prettify
 :project_id: gs-testing-web
-This guide walks you through the process of creating a Spring application.
 
-== What you'll build
+This guide walks you through the process of creating a Spring application and then testing
+it with JUnit.
 
-You'll build a simple Spring application and test it with JUnit. You probably already know how to write and run unit tests of the individual classes in your application, so for this guide we will concentrate on using Spring Test and Spring Boot features to test the interactions between Spring and your code. You will start with a simple test that the application context loads successfully, and continue on to test just the web layer using Spring's `MockMvc`.
+== What You Will Build
+
+You will build a simple Spring application and test it with JUnit. You probably already
+know how to write and run unit tests of the individual classes in your application, so,
+for this guide, we will concentrate on using Spring Test and Spring Boot features to test
+the interactions between Spring and your code. You will start with a simple test that the
+application context loads successfully and continue on to test only the web layer by using
+Spring's `MockMvc`.
 
 
-== What you'll need
+== What You Need
 
 :java_version: 1.8
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
 
+[[scratch]]
+== Starting with Spring Initializr
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-gradle.adoc[]
+For all Spring applications, you should start with the https://start.spring.io[Spring
+Initializr]. The Initializr offers a fast way to pull in all the dependencies you need for
+an application and does a lot of the setup for you. This example needs only the Spring Web
+dependency. The following image shows the Initializr set up for this sample project:
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-maven.adoc[]
+image::images/initializr.png[]
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-sts.adoc[]
+NOTE: The preceding image shows the Initializr with Maven chosen as the build tool. You
+can also use Gradle. It also shows values of `com.example` and `testing-web` as the Group
+and Artifact, respectively. You will use those values throughout the rest of this sample.
 
+The following listing shows the `pom.xml` file that is created when you choose Maven:
 
+====
+[source,xml]
+----
+include::initial/pom.xml[]
+----
+====
+
+The following listing shows the `build.gradle` file that is created when you choose Gradle:
+
+====
+[source,text]
+----
+include::initial/build.gradle[]
+----
+====
 
 [[initial]]
-== Create a simple application
+== Create a Simple Application
 
-Create a new controller for your Spring application:
+Create a new controller for your Spring application. The following listing (from
+`src/main/java/com/example/testingweb/HomeController.java`) shows how to do so:
 
-`src/main/java/hello/HomeController.java`
-[source,java,tabsize=2]
+====
+[source,java]
 ----
-include::complete/src/main/java/hello/HomeController.java[]
+include::complete/src/main/java/com/example/testingweb/HomeController.java[]
 ----
+====
 
-NOTE: The above example does not specify `GET` vs. `PUT`, `POST`, and so forth, because `@RequestMapping` maps all HTTP operations by default. Use `@GetMapping` or `@RequestMapping(method=GET)` to narrow this mapping.
-
-
-== Make the application executable
-
-Although it is possible to package this service as a traditional link:/understanding/WAR[WAR] file for deployment to an external application server, the simpler approach demonstrated below creates a standalone application. You package everything in a single, executable JAR file, driven by a good old Java `main()` method. Along the way, you use Spring's support for embedding the link:/understanding/Tomcat[Tomcat] servlet container as the HTTP runtime, instead of deploying to an external instance.
+NOTE: The preceding example does not specify `GET` versus `PUT`, `POST`, and so forth.
+By default `@RequestMapping` maps all HTTP operations. You can use `@GetMapping` or
+`@RequestMapping(method=GET)` to narrow this mapping.
 
 
-`src/main/java/hello/Application.java`
-[source,java,tabsize=2]
+== Run the Application
+
+The Spring Initializr creates an application class (a class with a `main()` method) for
+you. For this guide, you need not modify this class. The following listing (from
+`src/main/java/com/example/testingweb/Application.java`) shows the application class that
+the Spring Initializr created:
+
+====
+[source,java]
 ----
-include::complete/src/main/java/hello/Application.java[]
+include::complete/src/main/java/com/example/testingweb/Application.java[]
 ----
+====
 
 `@SpringBootApplication` is a convenience annotation that adds all of the following:
 
-- `@Configuration` tags the class as a source of bean definitions for the application context.
-- `@EnableAutoConfiguration` tells Spring Boot to start adding beans based on classpath settings, other beans, and various property settings.
-- Normally you would add `@EnableWebMvc` for a Spring MVC app, but Spring Boot adds it automatically when it sees **spring-webmvc** on the classpath. This flags the application as a web application and activates key behaviors such as setting up a `DispatcherServlet`.
-- `@ComponentScan` tells Spring to look for other components, configurations, and services in the `hello` package, allowing it to find the `HelloController`.
+- `@Configuration`: Tags the class as a source of bean definitions for the application
+context.
+- `@EnableAutoConfiguration`: Tells Spring Boot to start adding beans based on classpath
+settings, other beans, and various property settings.
+- `@EnableWebMvc`: Flags the application as a web application and activates key behaviors,
+such as setting up a `DispatcherServlet`. Spring Boot adds it  automatically when it sees
+`spring-webmvc` on the classpath.
+- `@ComponentScan`: Tells Spring to look for other components, configurations, and
+services in the the `com.example.testingrestdocs` package, letting it find the
+`HelloController` class.
 
-The `main()` method uses Spring Boot's `SpringApplication.run()` method to launch an application. Did you notice that there wasn't a single line of XML? No **web.xml** file either. This web application is 100% pure Java and you didn't have to deal with configuring any plumbing or infrastructure.
-
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_subhead.adoc[]
-
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_with_both.adoc[]
-
+The `main()` method uses Spring Boot's `SpringApplication.run()` method to launch an
+application. Did you notice that there is not a single line of XML? There is no `web.xml`
+file, either. This web application is 100% pure Java and you did not have to deal with
+configuring any plumbing or infrastructure. Spring Boot handles all of that for you.
 
 Logging output is displayed. The service should be up and running within a few seconds.
 
+== Test the Application
 
-== Test the application
+Now that the application is running, you can test it. You can load the home page at
+`http://localhost:8080`. However, to give yourself more confidence that the application
+works when you make changes, you want to automate the testing.
 
-Now that the application is running, you can test it. If it is running you can load the home page on http://localhost:8080. But to give yourself more confidence that the application is working when you make changes, you want to automate the testing.
+NOTE: Spring Boot assumes you plan to test your application, so it adds the necessary
+dependencies to your build file (`build.gradle` or `pom.xml`).
 
-The first thing you can do is write a simple sanity check test that will fail if the application context cannot start. First add Spring Test as a dependency to your pom.xml, in the test scope. If you are using Maven:
+The first thing you can do is write a simple sanity check test that will fail if the
+application context cannot start. The following listing (from
+`src/test/java/com/example/testingweb/TestingWebApplicationTest.java`) shows how to do so:
 
-`pom.xml`
-[source,xml]
+====
+[source,java]
 ----
-include::complete/pom.xml[tag=test,indent=0]
+include::initial/src/test/java/com/example/testingweb/TestingWebApplicationTest.java[]
 ----
+====
 
-or if you are using Gradle:
+The `@SpringBootTest` annotation tells Spring Boot to look for a main configuration class
+(one with `@SpringBootApplication`, for instance) and use that to start a Spring
+application context. You can run this test in your IDE or on the command line (by running
+`./mvnw test` or `./gradlew test`), and it should pass. To convince yourself that the
+context is creating your controller, you could add an assertion, as the following example
+(from `src/test/java/com/example/testingweb/SmokeTest.java`) shows:
 
-`build.gradle`
-[source,groovy]
+====
+[source,java]
 ----
-include::complete/build.gradle[tag=test,indent=0]
+include::complete/src/test/java/com/example/testingweb/SmokeTest.java[]
 ----
+====
 
-Then create a test case with the `@RunWith` and `@SpringBootTest` annotations and an empty test method:
+Spring interprets the `@Autowired` annotation, and the controller is injected before the
+test methods are run. We use http://joel-costigliola.github.io/assertj/[AssertJ]
+(which provides `assertThat()` and other methods) to express the test assertions.
 
-`src/test/java/hello/ApplicationTest.java`
-[source,java,tabsize=2]
+NOTE: A nice feature of the Spring Test support is that the application context is cached
+between tests. That way, if you have multiple methods in a test case or multiple test
+cases with the same configuration, they incur the cost of starting the application only
+once. You can control the cache by using the {DirtiesContext}[`@DirtiesContext`]
+annotation.
+
+It is nice to have a sanity check, but you should also write some tests that assert the
+behavior of your application. To do that, you could start the application and listen for a
+connection (as it would do in production) and then send an HTTP request and assert the
+response. The following listing (from
+`src/test/java/com/example/testingweb/HttpRequestTest.java`) shows how to do so:
+
+====
+[source,java]
 ----
-package hello;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class ApplicationTest {
-
-    @Test
-    public void contextLoads() throws Exception {
-    }
-
-}
+include::complete/src/test/java/com/example/testingweb/HttpRequestTest.java[]
 ----
+====
 
-The `@SpringBootTest` annotation tells Spring Boot to go and look for a main configuration class (one with `@SpringBootApplication` for instance), and use that to start a Spring application context. You can run this test in your IDE or on the command line (`mvn test` or `gradle test`) and it should pass. To convince yourself that the context is creating your controller you could add an assertion:
+Note the use of `webEnvironment=RANDOM_PORT` to start the server with a random port
+(useful to avoid conflicts in test environments) and the injection of the port with
+`@LocalServerPort`. Also, note that Spring Boot has automatically provided a
+`TestRestTemplate` for you. All you have to do is add `@Autowired` to it.
 
-`src/test/java/hello/SmokeTest.java`
-[source,java,tabsize=2]
+Another useful approach is to not start the server at all but to test only the layer below
+that, where Spring handles the incoming HTTP request and hands it off to your controller.
+That way, almost of the full stack is used, and your code will be called in exactly the
+same way as if it were processing a real HTTP request but without the cost of starting the
+server. To do that, use Spring's `MockMvc` and ask for that to be injected for you by
+using the `@AutoConfigureMockMvc` annotation on the test case. The following listing (from
+`src/test/java/com/example/testingweb/TestingWebApplicationTest.java`) shows how to do so:
+
+====
+[source,java]
 ----
-include::complete/src/test/java/hello/SmokeTest.java[]
+include::complete/src/test/java/com/example/testingweb/TestingWebApplicationTest.java[]
 ----
+====
 
-The `@Autowired` annotation is interpreted by the Spring and the controller is injected before the test methods are run. We are using https://joel-costigliola.github.io/assertj/[AssertJ] (`assertThat()` etc.) to express the test assertions.
+In this test, the full Spring application context is started but without the server. We
+can narrow the tests to only the web layer by using `@WebMvcTest`, as the following
+listing (from `src/test/java/com/example/testingweb/WebLayerTest.java`) shows:
 
-NOTE: A nice feature of the Spring Test support is that the application context is cached in between tests, so if you have multiple methods in a test case, or multiple test cases with the same configuration, they only incur the cost of starting the application once. You can control the cache using the {DirtiesContext}[`@DirtiesContext`] annotation.
-
-It's nice to have a sanity check like that, but we should also write some tests that assert the behaviour of our application. To do that we could start the application up and listen for a connection like it would do in production, and then send an HTTP request and assert the response.
-
-`src/test/java/hello/HttpRequestTest.java`
-[source,java,tabsize=2]
-----
-include::complete/src/test/java/hello/HttpRequestTest.java[]
-----
-
-Note the use of `webEnvironment=RANDOM_PORT` to start the server with a random port (useful to avoid conflicts in test environments), and the injection of the port with `@LocalServerPort`. Also note that Spring Boot has provided a `TestRestTemplate` for you automatically, and all you have to do is `@Autowired` it.
-
-Another useful approach is to not start the server at all, but test only the layer below that, where Spring handles the incoming HTTP request and hands it off to your controller. That way, almost the full stack is used, and your code will be called exactly the same way as if it was processing a real HTTP request, but without the cost of starting the server. To do that we will use Spring's `MockMvc`, and we can ask for that to be injected for us by using the `@AutoConfigureMockMvc` annotation on the test case:
-
-`src/test/java/hello/ApplicationTest.java`
-[source,java,tabsize=2]
-----
-include::complete/src/test/java/hello/ApplicationTest.java[]
-----
-
-In this test, the full Spring application context is started, but without the server. We can narrow down the tests to just the web layer by using `@WebMvcTest`:
-
-`src/test/java/hello/WebLayerTest.java`
-[source,java,tabsize=2]
+====
+[source,java]
 ----
 @RunWith(SpringRunner.class)
 @WebMvcTest
-include::complete/src/test/java/hello/WebLayerTest.java[tag=test]
+include::complete/src/test/java/com/example/testingweb/WebLayerTest.java[tag=test]
 ----
+====
 
-The test assertion is the same as in the previous case, but here Spring Boot is only instantiating the web layer, not the whole context. In an application with multiple controllers you can even ask for just one to be instantiated, using, for example `@WebMvcTest(HomeController.class)`
+The test assertion is the same as in the previous case. However, in this test, Spring Boot
+instantiates only the web layer rather than the whole context. In an application with
+multiple controllers, you can even ask for only one to be instantiated by using, for
+example, `@WebMvcTest(HomeController.class)`.
 
-So far, our `HomeController` is very simple and has no dependencies. We could make it more realistic by introducing an extra component to store the greeting. E.g. in a new controller:
+So far, our `HomeController` is simple and has no dependencies. We could make it more
+realistic by introducing an extra component to store the greeting (perhaps in a new
+controller). The following example (from
+`src/main/java/com/example/testingweb/GreetingController.java`) shows how to do so:
 
-`src/main/java/hello/GreetingController.java`
-[source,java,tabsize=2]
+====
+[source,java]
 ----
-include::complete/src/main/java/hello/GreetingController.java[]
+include::complete/src/main/java/com/example/testingweb/GreetingController.java[]
 ----
+====
 
-and then
+Then create a greeting service, as the following listing (from
+`src/main/java/com/example/testingweb/GreetingService.java`) shows:
 
-`src/main/java/hello/GreetingService.java`
-[source,java,tabsize=2]
+====
+[source,java]
 ----
-include::complete/src/main/java/hello/GreetingService.java[]
+include::complete/src/main/java/com/example/testingweb/GreetingService.java[]
 ----
+====
 
-The service dependency will be automatically injected by Spring into the controller (because of the constructor signature). To test this controller with `@WebMvcTest` you can do this
+Spring automatically injects the service dependency into the controller (because of the
+constructor signature). The following listing (from
+`src/test/java/com/example/testingweb/WebMockTest.java`) shows how to test this controller
+with `@WebMvcTest`:
 
-`src/test/java/hello/WebMockTest.java`
-[source,java,tabsize=2]
+====
+[source,java]
 ----
-include::complete/src/test/java/hello/WebMockTest.java[]
+include::complete/src/test/java/com/example/testingweb/WebMockTest.java[]
 ----
+====
 
-We use `@MockBean` to create and inject a mock for the `GreetingService` (if you don't do this the application context cannot start), and we set its expectations using `Mockito`.
-
+We use `@MockBean` to create and inject a mock for the `GreetingService` (if you do not do
+so, the application context cannot start), and we set its expectations using `Mockito`.
 
 == Summary
 
-Congratulations! You've just developed a Spring application and tested it with JUnit and Spring `MockMvc` using Spring Boot to isolate the web layer and load a special application context.
+Congratulations! You have developed a Spring application and tested it with JUnit and
+Spring `MockMvc` and have used Spring Boot to isolate the web layer and load a special
+application context.
 
 == See Also
 
