@@ -11,12 +11,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SmokeTest {
-    
-    @Autowired
-    private HomeController controller;
+	
+	@Autowired
+	private HomeController controller;
 
-    @Test
-    public void contexLoads() throws Exception {
-        assertThat(controller).isNotNull();
-    }
+	@Test
+	public void contexLoads() throws Exception {
+		assertThat(controller).isNotNull();
+	}
 }

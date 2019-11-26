@@ -35,7 +35,7 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 Create a new controller for your Spring application:
 
 `src/main/java/hello/HomeController.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/HomeController.java[]
 ----
@@ -49,7 +49,7 @@ Although it is possible to package this service as a traditional link:/understan
 
 
 `src/main/java/hello/Application.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/Application.java[]
 ----
@@ -94,7 +94,7 @@ include::complete/build.gradle[tag=test,indent=0]
 Then create a test case with the `@RunWith` and `@SpringBootTest` annotations and an empty test method:
 
 `src/test/java/hello/ApplicationTest.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 package hello;
 
@@ -117,7 +117,7 @@ public class ApplicationTest {
 The `@SpringBootTest` annotation tells Spring Boot to go and look for a main configuration class (one with `@SpringBootApplication` for instance), and use that to start a Spring application context. You can run this test in your IDE or on the command line (`mvn test` or `gradle test`) and it should pass. To convince yourself that the context is creating your controller you could add an assertion:
 
 `src/test/java/hello/SmokeTest.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/test/java/hello/SmokeTest.java[]
 ----
@@ -129,7 +129,7 @@ NOTE: A nice feature of the Spring Test support is that the application context 
 It's nice to have a sanity check like that, but we should also write some tests that assert the behaviour of our application. To do that we could start the application up and listen for a connection like it would do in production, and then send an HTTP request and assert the response.
 
 `src/test/java/hello/HttpRequestTest.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/test/java/hello/HttpRequestTest.java[]
 ----
@@ -139,7 +139,7 @@ Note the use of `webEnvironment=RANDOM_PORT` to start the server with a random p
 Another useful approach is to not start the server at all, but test only the layer below that, where Spring handles the incoming HTTP request and hands it off to your controller. That way, almost the full stack is used, and your code will be called exactly the same way as if it was processing a real HTTP request, but without the cost of starting the server. To do that we will use Spring's `MockMvc`, and we can ask for that to be injected for us by using the `@AutoConfigureMockMvc` annotation on the test case:
 
 `src/test/java/hello/ApplicationTest.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/test/java/hello/ApplicationTest.java[]
 ----
@@ -147,7 +147,7 @@ include::complete/src/test/java/hello/ApplicationTest.java[]
 In this test, the full Spring application context is started, but without the server. We can narrow down the tests to just the web layer by using `@WebMvcTest`:
 
 `src/test/java/hello/WebLayerTest.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 @RunWith(SpringRunner.class)
 @WebMvcTest
@@ -159,7 +159,7 @@ The test assertion is the same as in the previous case, but here Spring Boot is 
 So far, our `HomeController` is very simple and has no dependencies. We could make it more realistic by introducing an extra component to store the greeting. E.g. in a new controller:
 
 `src/main/java/hello/GreetingController.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/GreetingController.java[]
 ----
@@ -167,7 +167,7 @@ include::complete/src/main/java/hello/GreetingController.java[]
 and then
 
 `src/main/java/hello/GreetingService.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/GreetingService.java[]
 ----
@@ -175,7 +175,7 @@ include::complete/src/main/java/hello/GreetingService.java[]
 The service dependency will be automatically injected by Spring into the controller (because of the constructor signature). To test this controller with `@WebMvcTest` you can do this
 
 `src/test/java/hello/WebMockTest.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/test/java/hello/WebMockTest.java[]
 ----
