@@ -81,13 +81,13 @@ By default `@RequestMapping` maps all HTTP operations. You can use `@GetMapping`
 
 The Spring Initializr creates an application class (a class with a `main()` method) for
 you. For this guide, you need not modify this class. The following listing (from
-`src/main/java/com/example/testingweb/Application.java`) shows the application class that
+`src/main/java/com/example/testingweb/TestingWebApplication.java`) shows the application class that
 the Spring Initializr created:
 
 ====
 [source,java]
 ----
-include::complete/src/main/java/com/example/testingweb/Application.java[]
+include::complete/src/main/java/com/example/testingweb/TestingWebApplication.java[]
 ----
 ====
 
@@ -127,7 +127,7 @@ application context cannot start. The following listing (from
 ====
 [source,java]
 ----
-include::initial/src/test/java/com/example/testingweb/TestingWebApplicationTest.java[]
+include::complete/src/test/java/com/example/testingweb/TestingWebApplicationTest.java[]
 ----
 ====
 
