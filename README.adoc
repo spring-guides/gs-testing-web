@@ -127,7 +127,7 @@ application context cannot start. The following listing (from
 ====
 [source,java]
 ----
-include::initial/src/test/java/com/example/testingweb/TestingWebApplicationTest.java[]
+include::initial/src/test/java/com/example/testingweb/TestingWebApplicationTests.java[]
 ----
 ====
 
