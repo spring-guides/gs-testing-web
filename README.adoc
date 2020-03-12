@@ -195,7 +195,6 @@ listing (from `src/test/java/com/example/testingweb/WebLayerTest.java`) shows:
 ====
 [source,java]
 ----
-@RunWith(SpringRunner.class)
 @WebMvcTest
 include::complete/src/test/java/com/example/testingweb/WebLayerTest.java[tag=test]
 ----
