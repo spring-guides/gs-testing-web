@@ -14,7 +14,7 @@ public class SmokeTest {
 	private HomeController controller;
 
 	@Test
-	public void contexLoads() throws Exception {
+	public void contextLoads() throws Exception {
 		assertThat(controller).isNotNull();
 	}
 }
