@@ -87,8 +87,8 @@ settings, other beans, and various property settings.
 such as setting up a `DispatcherServlet`. Spring Boot adds it  automatically when it sees
 `spring-webmvc` on the classpath.
 - `@ComponentScan`: Tells Spring to look for other components, configurations, and
-services in the the `com.example.testingweb` package, letting it find the
-`HelloController` class.
+services in the package where your annotated `TestingWebApplication` class resides
+(`com.example.testingweb`), letting it find the `com.example.testingweb.HelloController`.
 
 The `main()` method uses Spring Boot's `SpringApplication.run()` method to launch an
 application. Did you notice that there is not a single line of XML? There is no `web.xml`
