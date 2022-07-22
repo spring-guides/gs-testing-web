@@ -161,7 +161,7 @@ Note the use of `webEnvironment=RANDOM_PORT` to start the server with a random p
 
 Another useful approach is to not start the server at all but to test only the layer below
 that, where Spring handles the incoming HTTP request and hands it off to your controller.
-That way, almost of the full stack is used, and your code will be called in exactly the
+That way, almost all of the full stack is used, and your code will be called in exactly the
 same way as if it were processing a real HTTP request but without the cost of starting the
 server. To do that, use Spring's `MockMvc` and ask for that to be injected for you by
 using the `@AutoConfigureMockMvc` annotation on the test case. The following listing (from
