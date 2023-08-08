@@ -182,7 +182,7 @@ listing (from `src/test/java/com/example/testingweb/WebLayerTest.java`) shows:
 [source,java]
 ----
 @WebMvcTest
-include::complete/src/test/java/com/example/testingweb/WebLayerTest.java[tag=test]
+include::complete/src/test/java/com/example/testingweb/WebLayerTest.java
 ----
 ====
 
