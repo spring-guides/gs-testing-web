@@ -13,7 +13,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(HomeController.class)
-//tag::test[]
 class WebLayerTest {
 
 	@Autowired
@@ -25,4 +24,3 @@ class WebLayerTest {
 				.andExpect(content().string(containsString("Hello, World")));
 	}
 }
-//end::test[]
