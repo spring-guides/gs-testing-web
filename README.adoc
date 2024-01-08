@@ -1,5 +1,7 @@
 :spring_version: current
 :DirtiesContext: https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/test/annotation/DirtiesContext.html
+:HttpMediaTypeNotAcceptableException: https://docs.spring.io/spring-framework/docs/{spring_version}/javadoc-api/org/springframework/web/HttpMediaTypeNotAcceptableException.html
+:HttpMessageNotWritableException: https://docs.spring.io/spring-framework/docs/{spring_version}/javadoc-api/org/springframework/http/converter/HttpMessageNotWritableException.html
 :toc:
 :icons: font
 :source-highlighter: prettify
@@ -171,6 +173,12 @@ using the `@AutoConfigureMockMvc` annotation on the test case. The following lis
 include::complete/src/test/java/com/example/testingweb/TestingWebApplicationTest.java[]
 ----
 ====
+
+NOTE: When using `@SpringBootTest` with `@AutoConfigureMockMvc` you could get some exceptions
+like {HttpMediaTypeNotAcceptableException}[`HttpMediaTypeNotAcceptableException`] or
+{HttpMessageNotWritableException}[`HttpMessageNotWritableException`] caused by missconfigurations,
+to avoid this behavoir you should use the annotation `@AutoConfigureWebMvc`or reeplace
+`@AutoConfigureMockMvc` and `@AutoConfigureWebMvc` with `@WebMvcTest` that includes both functionalities.
 
 In this test, the full Spring application context is started but without the server. We
 can narrow the tests to only the web layer by using `@WebMvcTest`, as the following
