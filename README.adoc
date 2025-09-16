@@ -28,33 +28,36 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 [[scratch]]
 == Starting with Spring Initializr
 
-You can use this https://start.spring.io/#!type=maven-project&language=java&packaging=jar&jvmVersion=11&groupId=com.example&artifactId=testing-web&name=testing-web&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.testing-web&dependencies=web[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
+You can use this https://start.spring.io/#!type=maven-project&packaging=jar&jvmVersion=17&groupId=com.example&artifactId=testing-web&name=testing-web&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.testingweb&dependencies=web[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
 
 To manually initialize the project:
 
 . Navigate to https://start.spring.io.
 This service pulls in all the dependencies you need for an application and does most of the setup for you.
-. Choose either Gradle or Maven and the language you want to use. This guide assumes that you chose Java.
+. Choose either Gradle or Maven and the language you want to use: Kotlin or Java.
 . Click *Dependencies* and select *Spring Web*.
 . Click *Generate*.
 . Download the resulting ZIP file, which is an archive of a web application that is configured with your choices.
 
 NOTE: If your IDE has the Spring Initializr integration, you can complete this process from your IDE.
 
-NOTE: You can also fork the project from Github and open it in your IDE or other editor.
+NOTE: You can also fork the project from GitHub and open it in your IDE or other editor.
 
 [[initial]]
 == Create a Simple Application
 
-Create a new controller for your Spring application. The following listing (from
-`src/main/java/com/example/testingweb/HomeController.java`) shows how to do so:
+Create a new controller for your Spring application. The following listing shows how to do so:
 
-====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::complete/src/main/java/com/example/testingweb/HomeController.java[]
 ----
-====
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/main/kotlin/com/example/testingweb/HomeController.kt[]
+----
 
 NOTE: The preceding example does not specify `GET` versus `PUT`, `POST`, and so forth.
 By default `@RequestMapping` maps all HTTP operations. You can use `@GetMapping` or
@@ -63,17 +66,20 @@ By default `@RequestMapping` maps all HTTP operations. You can use `@GetMapping`
 
 == Run the Application
 
-The Spring Initializr creates an application class (a class with a `main()` method) for
-you. For this guide, you need not modify this class. The following listing (from
-`src/main/java/com/example/testingweb/TestingWebApplication.java`) shows the application class that
+The Spring Initializr creates an application class (a class with a `main()` method) for you.
+For this guide, you need not modify this class. The following listing shows the application class that
 the Spring Initializr created:
 
-====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::complete/src/main/java/com/example/testingweb/TestingWebApplication.java[]
 ----
-====
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/main/kotlin/com/example/testingweb/TestingWebApplication.kt[]
+----
 
 `@SpringBootApplication` is a convenience annotation that adds all of the following:
 
@@ -90,8 +96,8 @@ services in the package where your annotated `TestingWebApplication` class resid
 
 The `main()` method uses Spring Boot's `SpringApplication.run()` method to launch an
 application. Did you notice that there is not a single line of XML? There is no `web.xml`
-file, either. This web application is 100% pure Java and you did not have to deal with
-configuring any plumbing or infrastructure. Spring Boot handles all of that for you.
+file, either. You do not have to deal with configuring any plumbing or infrastructure.
+Spring Boot handles all of that for you.
 
 Logging output is displayed. The service should be up and running within a few seconds.
 
@@ -105,32 +111,38 @@ NOTE: Spring Boot assumes you plan to test your application, so it adds the nece
 dependencies to your build file (`build.gradle` or `pom.xml`).
 
 The first thing you can do is write a simple sanity check test that will fail if the
-application context cannot start. The following listing (from
-`src/test/java/com/example/testingweb/TestingWebApplicationTest.java`) shows how to do so:
+application context cannot start. The following listing shows how to do so:
 
-====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::initial/src/test/java/com/example/testingweb/TestingWebApplicationTests.java[]
 ----
-====
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::initial-kotlin/src/test/kotlin/com/example/testingweb/TestingWebApplicationTests.kt[]
+----
 
 The `@SpringBootTest` annotation tells Spring Boot to look for a main configuration class
 (one with `@SpringBootApplication`, for instance) and use that to start a Spring
 application context. You can run this test in your IDE or on the command line (by running
 `./mvnw test` or `./gradlew test`), and it should pass. To convince yourself that the
-context is creating your controller, you could add an assertion, as the following example
-(from `src/test/java/com/example/testingweb/SmokeTest.java`) shows:
+context is creating your controller, you could add an assertion, as the following example shows:
 
-====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::complete/src/test/java/com/example/testingweb/SmokeTest.java[]
 ----
-====
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/test/kotlin/com/example/testingweb/SmokeTest.kt[]
+----
 
 Spring interprets the `@Autowired` annotation, and the controller is injected before the
-test methods are run. We use http://joel-costigliola.github.io/assertj/[AssertJ]
+test methods are run. We use a link: https://assertj.github.io/doc/[AssertJ]
 (which provides `assertThat()` and other methods) to express the test assertions.
 
 NOTE: A nice feature of the Spring Test support is that the application context is cached
@@ -142,15 +154,18 @@ annotation.
 It is nice to have a sanity check, but you should also write some tests that assert the
 behavior of your application. To do that, you could start the application and listen for a
 connection (as it would do in production) and then send an HTTP request and assert the
-response. The following listing (from
-`src/test/java/com/example/testingweb/HttpRequestTest.java`) shows how to do so:
+response. The following listing shows how to do so:
 
-====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::complete/src/test/java/com/example/testingweb/HttpRequestTest.java[]
 ----
-====
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/test/kotlin/com/example/testingweb/HttpRequestTest.kt[]
+----
 
 Note the use of `webEnvironment=RANDOM_PORT` to start the server with a random port
 (useful to avoid conflicts in test environments) and the injection of the port with
@@ -162,27 +177,33 @@ that, where Spring handles the incoming HTTP request and hands it off to your co
 That way, almost all of the full stack is used, and your code will be called in exactly the
 same way as if it were processing a real HTTP request but without the cost of starting the
 server. To do that, use Spring's `MockMvc` and ask for that to be injected for you by
-using the `@AutoConfigureMockMvc` annotation on the test case. The following listing (from
-`src/test/java/com/example/testingweb/TestingWebApplicationTest.java`) shows how to do so:
+using the `@AutoConfigureMockMvc` annotation on the test case. The following listing shows how to do so:
 
-====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::complete/src/test/java/com/example/testingweb/TestingWebApplicationTest.java[]
 ----
-====
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/test/kotlin/com/example/testingweb/TestingWebApplicationTest.kt[]
+----
 
 In this test, the full Spring application context is started but without the server. We
 can narrow the tests to only the web layer by using `@WebMvcTest`, as the following
-listing (from `src/test/java/com/example/testingweb/WebLayerTest.java`) shows:
+listing shows:
 
-====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
-@WebMvcTest
-include::complete/src/test/java/com/example/testingweb/WebLayerTest.java
+include::complete/src/test/java/com/example/testingweb/WebLayerTest.java[tags=test]
 ----
-====
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/test/kotlin/com/example/testingweb/WebLayerTest.kt[tags=test]
+----
 
 The test assertion is the same as in the previous case. However, in this test, Spring Boot
 instantiates only the web layer rather than the whole context. In an application with
@@ -191,37 +212,46 @@ example, `@WebMvcTest(HomeController.class)`.
 
 So far, our `HomeController` is simple and has no dependencies. We could make it more
 realistic by introducing an extra component to store the greeting (perhaps in a new
-controller). The following example (from
-`src/main/java/com/example/testingweb/GreetingController.java`) shows how to do so:
+controller). The following example shows how to do so:
 
-====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::complete/src/main/java/com/example/testingweb/GreetingController.java[]
 ----
-====
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/main/kotlin/com/example/testingweb/GreetingController.kt[]
+----
 
-Then create a greeting service, as the following listing (from
-`src/main/java/com/example/testingweb/GreetingService.java`) shows:
+Then create a greeting service, as the following listing shows:
 
-====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::complete/src/main/java/com/example/testingweb/GreetingService.java[]
 ----
-====
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/main/kotlin/com/example/testingweb/GreetingService.kt[]
+----
 
 Spring automatically injects the service dependency into the controller (because of the
-constructor signature). The following listing (from
-`src/test/java/com/example/testingweb/WebMockTest.java`) shows how to test this controller
+constructor signature). The following listing shows how to test this controller
 with `@WebMvcTest`:
 
-====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::complete/src/test/java/com/example/testingweb/WebMockTest.java[]
 ----
-====
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/test/kotlin/com/example/testingweb/WebMockTest.kt[]
+----
 
 We use `@MockBean` to create and inject a mock for the `GreetingService` (if you do not do
 so, the application context cannot start), and we set its expectations using `Mockito`.

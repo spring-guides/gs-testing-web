@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @WebMvcTest(HomeController::class)
+//tag::test[]
 class WebLayerTest {
 
     @Autowired
@@ -24,3 +25,4 @@ class WebLayerTest {
             .andExpect(content().string(containsString("Hello, World")))
     }
 }
+//end::test[]
