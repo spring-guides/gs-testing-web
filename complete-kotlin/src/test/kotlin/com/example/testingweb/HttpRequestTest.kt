@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment
+import org.springframework.boot.test.web.client.getForObject
 import org.springframework.boot.test.web.server.LocalServerPort
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -19,7 +20,8 @@ class HttpRequestTest {
 
     @Test
     fun greetingShouldReturnDefaultMessage() {
-        assertThat(this.restTemplate.getForObject("http://localhost:$port/", String::class.java))
+        // Import Kotlin .getForObject() extension that allows using reified type parameters
+        assertThat(this.restTemplate.getForObject<String>("http://localhost:$port/"))
             .contains("Hello, World")
     }
 }

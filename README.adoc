@@ -197,12 +197,12 @@ listing shows:
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java
 ----
-include::complete/src/test/java/com/example/testingweb/WebLayerTest.java[tags=test]
+include::complete/src/test/java/com/example/testingweb/WebLayerTest.java[]
 ----
 [source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
 .Kotlin
 ----
-include::complete-kotlin/src/test/kotlin/com/example/testingweb/WebLayerTest.kt[tags=test]
+include::complete-kotlin/src/test/kotlin/com/example/testingweb/WebLayerTest.kt[]
 ----
 
 The test assertion is the same as in the previous case. However, in this test, Spring Boot
@@ -247,7 +247,7 @@ with `@WebMvcTest`:
 ----
 include::complete/src/test/java/com/example/testingweb/WebMockTest.java[]
 ----
-[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+[source,kotlin,indent=0,subs="verbatim",role="secondary"]
 .Kotlin
 ----
 include::complete-kotlin/src/test/kotlin/com/example/testingweb/WebMockTest.kt[]
