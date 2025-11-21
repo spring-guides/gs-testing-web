@@ -34,7 +34,7 @@ To manually initialize the project:
 
 . Navigate to https://start.spring.io.
 This service pulls in all the dependencies you need for an application and does most of the setup for you.
-. Choose either Gradle or Maven and the language you want to use: Kotlin or Java.
+. Choose either Gradle or Maven and the language you want to use.
 . Click *Dependencies* and select *Spring Web*.
 . Click *Generate*.
 . Download the resulting ZIP file, which is an archive of a web application that is configured with your choices.
@@ -58,10 +58,6 @@ include::complete/src/main/java/com/example/testingweb/HomeController.java[]
 ----
 include::complete-kotlin/src/main/kotlin/com/example/testingweb/HomeController.kt[]
 ----
-
-NOTE: The preceding example does not specify `GET` versus `PUT`, `POST`, and so forth.
-By default `@RequestMapping` maps all HTTP operations. You can use `@GetMapping` or
-`@RequestMapping(method=GET)` to narrow this mapping.
 
 
 == Run the Application
@@ -253,7 +249,7 @@ include::complete/src/test/java/com/example/testingweb/WebMockTest.java[]
 include::complete-kotlin/src/test/kotlin/com/example/testingweb/WebMockTest.kt[]
 ----
 
-We use `@MockBean` to create and inject a mock for the `GreetingService` (if you do not do
+We use `@MockitoBean` to create and inject a mock for the `GreetingService` (if you do not do
 so, the application context cannot start), and we set its expectations using `Mockito`.
 
 == Summary
