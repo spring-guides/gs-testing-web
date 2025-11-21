@@ -138,7 +138,7 @@ include::complete-kotlin/src/test/kotlin/com/example/testingweb/SmokeTest.kt[]
 ----
 
 Spring interprets the `@Autowired` annotation, and the controller is injected before the
-test methods are run. We use a link: https://assertj.github.io/doc/[AssertJ]
+test methods are run. We use https://assertj.github.io/doc/[AssertJ]
 (which provides `assertThat()` and other methods) to express the test assertions.
 
 NOTE: A nice feature of the Spring Test support is that the application context is cached
