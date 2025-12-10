@@ -5,22 +5,19 @@
 :source-highlighter: prettify
 :project_id: gs-testing-web
 
-This guide walks you through the process of creating a Spring application and then testing
-it with JUnit.
+This guide walks you through the process of creating a Spring application and then testing it with JUnit.
 
 == What You Will Build
 
-You will build a simple Spring application and test it with JUnit. You probably already
-know how to write and run unit tests of the individual classes in your application, so,
-for this guide, we will concentrate on using Spring Test and Spring Boot features to test
-the interactions between Spring and your code. You will start with a simple test that the
-application context loads successfully and continue on to test only the web layer by using
-Spring's `MockMvc`.
+You will build a simple Spring application and test it with JUnit.
+You probably already know how to write and run unit tests of the individual classes in your application, so,
+for this guide, we will concentrate on using Spring Test and Spring Boot features to test the interactions between Spring and your code.
+You will start with a simple test that the application context loads successfully and continue on to test only the web layer by using Spring's `MockMvc`.
 
 
 == What You Need
 
-:java_version: 1.8
+:java_version: 17
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/prereq_editor_jdk_buildtools.adoc[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/how_to_complete_this_guide.adoc[]
@@ -28,14 +25,14 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 [[scratch]]
 == Starting with Spring Initializr
 
-You can use this https://start.spring.io/#!type=maven-project&packaging=jar&jvmVersion=17&groupId=com.example&artifactId=testing-web&name=testing-web&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.testingweb&dependencies=web[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
+You can use this https://start.spring.io/#!type=gradle-project&packaging=jar&jvmVersion=17&groupId=com.example&artifactId=testing-web&name=testing-web&packageName=com.example.testingweb&dependencies=web,spring-restclient[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
 
 To manually initialize the project:
 
 . Navigate to https://start.spring.io.
 This service pulls in all the dependencies you need for an application and does most of the setup for you.
 . Choose either Gradle or Maven and the language you want to use.
-. Click *Dependencies* and select *Spring Web*.
+. Click *Dependencies* and select *Spring Web* and *HTTP Client*.
 . Click *Generate*.
 . Download the resulting ZIP file, which is an archive of a web application that is configured with your choices.
 
@@ -77,33 +74,17 @@ include::complete/src/main/java/com/example/testingweb/TestingWebApplication.jav
 include::complete-kotlin/src/main/kotlin/com/example/testingweb/TestingWebApplication.kt[]
 ----
 
-`@SpringBootApplication` is a convenience annotation that adds all of the following:
-
-- `@Configuration`: Tags the class as a source of bean definitions for the application
-context.
-- `@EnableAutoConfiguration`: Tells Spring Boot to start adding beans based on classpath
-settings, other beans, and various property settings.
-- `@EnableWebMvc`: Flags the application as a web application and activates key behaviors,
-such as setting up a `DispatcherServlet`. Spring Boot adds it  automatically when it sees
-`spring-webmvc` on the classpath.
-- `@ComponentScan`: Tells Spring to look for other components, configurations, and
-services in the package where your annotated `TestingWebApplication` class resides
-(`com.example.testingweb`), letting it find the `com.example.testingweb.HelloController`.
-
-The `main()` method uses Spring Boot's `SpringApplication.run()` method to launch an
-application. Did you notice that there is not a single line of XML? There is no `web.xml`
-file, either. You do not have to deal with configuring any plumbing or infrastructure.
-Spring Boot handles all of that for you.
-
-Logging output is displayed. The service should be up and running within a few seconds.
-
-== Test the Application
+You can run this application class from your IDE directly, or from the command line using
+Gradle (`./gradlew :bootRun`) or Maven (`./mvwn spring-boot:run`).
 
 Now that the application is running, you can test it. You can load the home page at
 `http://localhost:8080`. However, to give yourself more confidence that the application
 works when you make changes, you want to automate the testing.
 
-NOTE: Spring Boot assumes you plan to test your application, so it adds the necessary
+
+== Test the Application
+
+Spring Boot assumes you plan to test your application, so it adds the necessary
 dependencies to your build file (`build.gradle` or `pom.xml`).
 
 The first thing you can do is write a simple sanity check test that will fail if the
@@ -123,7 +104,7 @@ include::initial-kotlin/src/test/kotlin/com/example/testingweb/TestingWebApplica
 The `@SpringBootTest` annotation tells Spring Boot to look for a main configuration class
 (one with `@SpringBootApplication`, for instance) and use that to start a Spring
 application context. You can run this test in your IDE or on the command line (by running
-`./mvnw test` or `./gradlew test`), and it should pass. To convince yourself that the
+`./mvnw test` or `./gradlew check`), and it should pass. To convince yourself that the
 context is creating your controller, you could add an assertion, as the following example shows:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
@@ -140,12 +121,6 @@ include::complete-kotlin/src/test/kotlin/com/example/testingweb/SmokeTest.kt[]
 Spring interprets the `@Autowired` annotation, and the controller is injected before the
 test methods are run. We use https://assertj.github.io/doc/[AssertJ]
 (which provides `assertThat()` and other methods) to express the test assertions.
-
-NOTE: A nice feature of the Spring Test support is that the application context is cached
-between tests. That way, if you have multiple methods in a test case or multiple test
-cases with the same configuration, they incur the cost of starting the application only
-once. You can control the cache by using the {DirtiesContext}[`@DirtiesContext`]
-annotation.
 
 It is nice to have a sanity check, but you should also write some tests that assert the
 behavior of your application. To do that, you could start the application and listen for a
@@ -166,14 +141,16 @@ include::complete-kotlin/src/test/kotlin/com/example/testingweb/HttpRequestTest.
 Note the use of `webEnvironment=RANDOM_PORT` to start the server with a random port
 (useful to avoid conflicts in test environments) and the injection of the port with
 `@LocalServerPort`. Also, note that Spring Boot has automatically provided a
-`TestRestTemplate` for you. All you have to do is add `@Autowired` to it.
+`RestTestClient` for you because we expressed the need for it with `@AutoConfigureRestTestClient`.
+All you have to do after that is to add `@Autowired` to the field.
 
 Another useful approach is to not start the server at all but to test only the layer below
 that, where Spring handles the incoming HTTP request and hands it off to your controller.
 That way, almost all of the full stack is used, and your code will be called in exactly the
 same way as if it were processing a real HTTP request but without the cost of starting the
-server. To do that, use Spring's `MockMvc` and ask for that to be injected for you by
-using the `@AutoConfigureMockMvc` annotation on the test case. The following listing shows how to do so:
+server. To do that, we can reuse our previous test using `RestTestClient`, but this time
+leaving `@SpringBootTest` with its default, which is to start a mock server environment.
+The following listing shows how to do so:
 
 [source,java,indent=0,subs="verbatim,quotes",role="primary"]
 .Java

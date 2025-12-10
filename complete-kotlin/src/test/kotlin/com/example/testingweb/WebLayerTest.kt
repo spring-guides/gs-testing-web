@@ -1,26 +1,27 @@
 package com.example.testingweb
 
-import org.hamcrest.Matchers.containsString
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest
+import org.springframework.test.web.servlet.client.RestTestClient
+import org.springframework.test.web.servlet.client.expectBody
 
 @WebMvcTest(HomeController::class)
+@AutoConfigureRestTestClient
 class WebLayerTest {
 
     @Autowired
-    private lateinit var mockMvc: MockMvc
+    private lateinit var restTestClient: RestTestClient
 
     @Test
-    fun shouldReturnDefaultMessage() {
-        mockMvc.perform(get("/"))
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(content().string(containsString("Hello, World")))
+    fun greetingShouldReturnDefaultMessage() {
+        // Import Kotlin .expectBody() extension that allows using reified type parameters
+        restTestClient.get()
+            .uri("/")
+            .exchange()
+            .expectBody<String>()
+            .isEqualTo("Hello, World")
     }
+
 }
