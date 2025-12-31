@@ -11,13 +11,10 @@ import org.springframework.test.web.servlet.client.expectBody
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @AutoConfigureRestTestClient
-class HttpRequestTest {
+class HttpRequestTest(@Autowired private val restTestClient: RestTestClient) {
 
     @LocalServerPort
     private var port: Int = 0
-
-    @Autowired
-    private lateinit var restTestClient: RestTestClient
 
     @Test
     fun greetingShouldReturnDefaultMessage() {

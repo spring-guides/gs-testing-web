@@ -9,10 +9,7 @@ import org.springframework.test.web.servlet.client.expectBody
 
 @WebMvcTest(HomeController::class)
 @AutoConfigureRestTestClient
-class WebLayerTest {
-
-    @Autowired
-    private lateinit var restTestClient: RestTestClient
+class WebLayerTest(@Autowired private val restTestClient: RestTestClient) {
 
     @Test
     fun greetingShouldReturnDefaultMessage() {

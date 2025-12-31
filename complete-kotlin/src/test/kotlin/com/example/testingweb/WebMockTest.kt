@@ -11,10 +11,7 @@ import org.springframework.test.web.servlet.client.expectBody
 
 @WebMvcTest(GreetingController::class)
 @AutoConfigureRestTestClient
-class WebMockTest {
-
-    @Autowired
-    private lateinit var restTestClient: RestTestClient
+class WebMockTest(@Autowired private val restTestClient: RestTestClient) {
 
     @MockitoBean
     private lateinit var service: GreetingService
